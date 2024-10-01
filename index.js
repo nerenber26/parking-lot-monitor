@@ -39,7 +39,7 @@ app.use((err, req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-    res.status(200).json({"status": 200});
+    res.status(200).render('index', { title: "Index" });
 });
 
 // catch-all for undefined routes
