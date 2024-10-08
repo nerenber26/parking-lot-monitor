@@ -1,6 +1,7 @@
 import path from 'path';
 import express from "express";
 import logger from 'morgan';
+import mysql from 'mysql2';
 
 
 const app = express();
@@ -30,6 +31,26 @@ app.use(logger((tokens, req, res) => {
         `- ${tokens['response-time'](req, res)} ms`
     ].join(' ');
 }));
+
+const pool = mysql.createPool({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'insert_password',
+    database: 'sensordb',
+    //database: 'insert_database_name',
+});
+
+app.get('/data', (req, res) => {
+    pool.query('SELECT * FROM sensordata', (err, rows) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("GOOD");
+            res.json(rows);
+        }
+    })
+})
 
 app.use((err, req, res, next) => {
     console.error(`Error occurred: ${err.message}`);
