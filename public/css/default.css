@@ -1,0 +1,19 @@
+/*comp colors: brown #673223 and green #236732*/
+body{
+    margin: 0;
+    padding: 0;
+}
+header{
+    background-color: #322367;
+    color: white;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+.banner {
+    width: 100%;
+    margin: 0;
+}
+*{
+    margin: 0;
+}
