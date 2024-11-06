@@ -62,6 +62,13 @@ app.use((err, req, res, next) => {
 app.get("/", (req, res) => {
     res.status(200).render('index', { title: "Index" });
 });
+app.get('/map', (req, res) => {
+    res.status(200).render('map', {title: "Map"}); // Render the map.pug view
+});
+app.get('/query', (req, res) => {
+    res.status(200).render('query', {title: "Query"}); // Render the query.pug view
+});
+
 
 // catch-all for undefined routes
 app.all('*', (req, res) => {
