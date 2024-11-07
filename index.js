@@ -1,7 +1,12 @@
 import path from 'path';
 import express from "express";
 import logger from 'morgan';
-import mysql from 'mysql2';
+
+import pkg from 'pg';
+const { Client } = pkg;
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 const app = express();
@@ -32,13 +37,12 @@ app.use(logger((tokens, req, res) => {
     ].join(' ');
 }));
 
-const pool = mysql.createPool({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: 'insert_password',
-    database: 'sensordb',
-    //database: 'insert_database_name',
+const client = new Client({
+    host: process.env.POSTGRES_HOST,
+    port: process.env.POSTGRES_PORT,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: 'parking_system',
 });
 
 app.get('/data', (req, res) => {
@@ -83,6 +87,16 @@ const server = app.listen(PORT, () => {
     console.log(`Starting up server in ${NODE_ENV.toUpperCase()} mode`);
     console.log(`ExpressJS App listening to port: ${PORT}`);
 });
+
+async function connectToDatabase() {
+    try {
+        await client.connect();
+        console.log('Connected to PostgreSQL database');
+    } catch (err) {
+        console.error('Connection error', err.stack);
+    }
+}
+connectToDatabase();
 
 const shutdown = (signal) => {
     console.log(`\nReceived ${signal}. Closing HTTP server...`);
