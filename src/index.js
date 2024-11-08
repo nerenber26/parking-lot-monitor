@@ -45,15 +45,14 @@ const client = new Client({
     database: 'parking_system',
 });
 
-app.get('/data', (req, res) => {
-    pool.query('SELECT * FROM sensordata', (err, rows) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("GOOD");
-            res.json(rows);
-        }
-    })
+app.get('/data', async(req, res) => {
+    try {
+        const dbRes = await client.query('SELECT * FROM ParkingLots');
+        res.json(dbRes.rows);
+    } catch (err) {
+        console.error('Error executing query', err);
+        res.status(500).json({ error: 'An error occurred while querying the database.' });
+    }
 })
 
 app.use((err, req, res, next) => {
@@ -67,10 +66,10 @@ app.get("/", (req, res) => {
     res.status(200).render('index', { title: "Index" });
 });
 app.get('/map', (req, res) => {
-    res.status(200).render('map', {title: "Map"}); // Render the map.pug view
+    res.status(200).render('map', {title: "Map"});
 });
 app.get('/query', (req, res) => {
-    res.status(200).render('query', {title: "Query"}); // Render the query.pug view
+    res.status(200).render('query', {title: "Query"});
 });
 
 
