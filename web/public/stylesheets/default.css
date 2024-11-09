@@ -22,31 +22,31 @@ head{
 .topnav {
     background-color: #673223;
     overflow: hidden;
-  }
-  
-  /* Style the links inside the navigation bar */
-  .topnav a {
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
     float: left;
     color: #f2f2f2;
     text-align: center;
     padding: 5% 5%;
     text-decoration: none;
     font-size: 200%;
-  }
-  
-  /* Change the color of links on hover */
-  .topnav a:hover {
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
     background-color: #ddd;
     color: black;
-  }
-  
-  /* Add a color to the active/current link */
-  .topnav a.active {
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
     background-color: #236732;
     color: white;
-  }
+}
 
-  .mycontainer{
+.mycontainer{
     background-color: #673223;
     width: 100%;
-  }
+}

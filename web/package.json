@@ -1,0 +1,14 @@
+{
+    "name": "parking-lot-monitor-server",
+    "description": "Website and API for the parking lot monitor system.",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "node ./index.js"
+    },
+    "dependencies": {
+        "express": "^4.21.1",
+        "pg": "^8.13.1",
+        "pug": "^3.0.3"
+    }
+}
