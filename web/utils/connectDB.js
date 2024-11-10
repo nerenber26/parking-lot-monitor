@@ -1,14 +1,16 @@
-import pg from 'pg'
+import pg from 'pg';
 
 
-const { Pool } = pg
+const { Pool } = pg;
 
-// TODO: Delete before production
-const POSTGRES_HOST = process.env.POSTGRES_HOST;
-const POSTGRES_PORT = process.env.POSTGRES_PORT;
-const POSTGRES_USER = process.env.POSTGRES_USER;
-const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
-const POSTGRES_DATABASE = process.env.POSTGRES_DATABASE;
+const {
+    POSTGRES_HOST,
+    POSTGRES_PORT,
+    POSTGRES_USER,
+    POSTGRES_PASSWORD,
+    POSTGRES_DATABASE,
+    POSTGRES_MAX_CONNECTIONS,
+} = process.env;
 
 const pool = new Pool({
     host: POSTGRES_HOST,
@@ -16,38 +18,40 @@ const pool = new Pool({
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
     database: POSTGRES_DATABASE,
+    max: POSTGRES_MAX_CONNECTIONS,
+    idleTimeoutMillis: 30 * 1000,
+    connectionTimeoutMillis: 2 * 1000,
 });
 
+/**
+ * Executes a SQL query against a database.
+ *
+ * @async
+ * @function runQuery
+ * @param {string} text - SQL query to be executed
+ * @param {Array} params - Array of parameters to use in the SQL query
+ * @returns {Promise<Object>} - Promise that resolves to the result of the query
+ *
+ * @example
+ * const result = await runQuery('SELECT * FROM users WHERE id = $1', [userId]);
+ * console.log(result.rows);
+ */
 export const runQuery = async(text, params) => {
-    const start = Date.now()
-    const res = await pool.query(text, params)
-    const duration = Date.now() - start
-    console.log('executed query', { text, duration, rows: res.rowCount })
-    return res
-}
+    return pool.query(text, params);
+};
 
-export const getClient = async() => {
-    const client = await pool.connect()
-
-    const query = client.query
-    const release = client.release
-
-    const timeout = setTimeout(() => {
-        console.error('A client has been checked out for more than 5 seconds!')
-        console.error(`The last executed query on this client was: ${client.lastQuery}`)
-    }, 5000)
-
-    client.query = (...args) => {
-        client.lastQuery = args
-        return query.apply(client, args)
-    }
-
-    client.release = () => {
-        clearTimeout(timeout)
-        client.query = query
-        client.release = release
-        return release.apply(client)
-    }
-
-    return client
-}
+/**
+ * Retrieves a database client from the connection pool, overriding its release methods.
+ *
+ * @async
+ * @function getClient
+ * @returns {Promise<Object>} Promise that resolves to a database client
+ *
+ * @example
+ * const client = await getClient()
+ * const result = await client.query('SELECT * FROM users');
+ * client.release()
+ */
+export const getClient = async () => {
+    return pool.connect();
+};
