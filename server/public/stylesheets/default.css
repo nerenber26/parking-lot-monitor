@@ -54,6 +54,7 @@ head{
     color: white;
     text-align: center;
     font-size: 150%;
+    display: inline-block;
 }
 .myspacer{
     background-color: #140f39;
@@ -62,4 +63,11 @@ head{
     width: 100%;
     color: white;
     text-align: center;
+}
+.colorsquare{
+    display: inline-block;
+    background-color: #236732;
+    width: 1.5%;
+    margin-left: 1.5%;
+    padding-top: 1.5%;
 }
