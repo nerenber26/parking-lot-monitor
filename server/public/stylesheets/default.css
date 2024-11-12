@@ -2,25 +2,22 @@
 body{
     margin: 0;
     padding: 0;
+    background-color: #140f39;
 }
 header{
-    background-color: #322367;
+    background-color: #1E1656;
     color: white;
     text-align: center;
     padding: 0;
     margin: 0;
 }
-.banner {
-    width: 100%;
-    margin: 0;
-    background-color: #322367;
-}
+
 head{
     margin: 0;
 }
-/* Add a black background color to the top navigation */
+/* Add a brown background color to the top navigation */
 .topnav {
-    background-color: #673223;
+    background-color: #140f39;
     overflow: hidden;
 }
 
@@ -29,7 +26,10 @@ head{
     float: left;
     color: #f2f2f2;
     text-align: center;
-    padding: 5% 5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
     text-decoration: none;
     font-size: 200%;
 }
@@ -42,11 +42,24 @@ head{
 
 /* Add a color to the active/current link */
 .topnav a.active {
-    background-color: #236732;
+    background-color: #5E6A71;
     color: white;
 }
 
-.mycontainer{
-    background-color: #673223;
+.info {
     width: 100%;
+    background-color: #1E1656;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    color: white;
+    text-align: center;
+    font-size: 150%;
+}
+.myspacer{
+    background-color: #140f39;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    width: 100%;
+    color: white;
+    text-align: center;
 }
