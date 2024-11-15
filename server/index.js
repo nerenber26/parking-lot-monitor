@@ -2,6 +2,8 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import express from 'express';
 
+import * as db from './utils/connectDB.js';
+
 
 const APP_PORT = process.env.APP_PORT || 3000;
 const APP_ENV = process.env.APP_ENV || 'development';
@@ -25,13 +27,18 @@ app.get('/', async(req, res) => {
     res.status(200).render('home', { infoArray });
 });
 
-app.get('/map', async(req, res) => {
+app.get('/map', (req, res) => {
     res.status(200).render('map');
 });
-
+``
 app.get('/query', async(req, res) => {
     res.status(200).render('query');
 });
+
+app.get('/api', async(req, res) => {
+    const results = await db.runQuery('SELECT pl.name, COUNT(ps.space_id), pl.total_spaces FROM ParkingLots pl JOIN ParkingSpaces ps ON pl.lot_id = ps.lot_id WHERE ps.status = false GROUP BY pl.name, pl.total_spaces', []);
+    res.status(200).send(results.rows);
+})
 
 app.all('*', (req, res) => {
     res.status(404).render('404');
