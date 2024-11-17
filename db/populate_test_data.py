@@ -1,6 +1,7 @@
 import argparse
 import psycopg2
 import random
+import string
 from getpass import getpass
 from datetime import datetime, timedelta
 
@@ -10,11 +11,22 @@ lot_names = [
     'Commons Lot',
     'Waldschmidt Lot',
     'Shiley Lot',
-    # 'Christie Lot',
-    # 'Kenna Lot',
-    # 'Postmouth',
+    'Christie Lot',
+    'Kenna Lot',
+    'Postmouth',
 ]
-sections = ['A', 'B', 'C', 'D']
+
+def generate_random_secret(length=100):
+    characters = string.ascii_letters + string.digits + string.punctuation.replace("'", "")  # Letters, digits, and symbols excluding single quotes
+    return ''.join(random.choice(characters) for _ in range(length))
+
+
+# Generate a random timestamp within the past 2 years
+def generate_random_timestamp():
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=365*2)  # 2 years ago
+    random_timestamp = start_date + (end_date - start_date) * random.random()
+    return random_timestamp
 
 
 def populate_parking_data(db_params):
@@ -23,52 +35,39 @@ def populate_parking_data(db_params):
         conn.autocommit = True
         cur = conn.cursor()
 
-        lot_ids = {}
         for lot_name in lot_names:
-            for section in sections:
-                total_spaces = random.randint(50, 200)
-                cur.execute("""
-                    INSERT INTO ParkingLots (name, section, total_spaces)
-                    VALUES (%s, %s, %s) RETURNING lot_id;
-                """, (f"{lot_name} - {section}", section, total_spaces))
-                lot_id = cur.fetchone()[0]
-                lot_ids[(lot_name, section)] = lot_id
-        conn.commit()
-
-        sensor_ids = []
-        for i in range(1, 401):
-            sensor_secret = f"sensor_secret_{random.randint(1000, 9999)}"
             cur.execute("""
-                INSERT INTO Sensors (secret)
-                VALUES (%s) RETURNING sensor_id;
-            """, (sensor_secret,))
-            sensor_id = cur.fetchone()[0]
-            sensor_ids.append(sensor_id)
-        conn.commit()
+                INSERT INTO ParkingLots (name, total_spaces)
+                VALUES (%s, %s);
+            """, (lot_name, random.randint(50, 200)))
 
-        sensor_index = 0
-        for (lot_name, section), lot_id in lot_ids.items():
-            for space_id in range(1, 26):
-                status = random.choice([True, False])
-                last_updated = datetime.now() - timedelta(days=random.randint(1, 30))
-                sensor_id = sensor_ids[sensor_index]
-                sensor_index += 1
+        cur.execute("SELECT id, total_spaces FROM ParkingLots;")
+        parking_lots = cur.fetchall()
+
+        # For each parking lot, insert LoRaSensors equal to total_spaces
+        for total_spaces in parking_lots:
+            for _ in range(total_spaces[1]):  # Insert one sensor for each parking space
+                secret = generate_random_secret(100)  # Generate a random secret of 100 characters
+                cur.execute("""
+                    INSERT INTO LoRaSensors (secret)
+                    VALUES (%s);
+                """, (secret,))
+        
+        cur.execute("SELECT id FROM LoRaSensors;")
+        sensors = cur.fetchall()
+
+        sensor_idx = 0
+        for lot_id, total_spaces in parking_lots:
+            for _ in range(total_spaces):  # For each parking space in this lot
+                sensor_id = sensors[sensor_idx][0]
+                occupied = random.choice([True, False])  # Randomly set occupied status
+                last_updated = generate_random_timestamp()  # Generate random last_updated timestamp
                 cur.execute("""
                     INSERT INTO ParkingSpaces (lot_id, sensor_id, occupied, last_updated)
                     VALUES (%s, %s, %s, %s);
-                """, (lot_id, sensor_id, status, last_updated))
-        conn.commit()
+                """, (lot_id, sensor_id, occupied, last_updated))
 
-        cur.execute("SELECT space_id, occupied, last_updated FROM ParkingSpaces")
-        spaces = cur.fetchall()
-
-        for space in spaces:
-            space_id, status, last_updated = space
-            cur.execute("""
-                INSERT INTO OccupancyEvents (space_id, event_time, occupied)
-                VALUES (%s, %s, %s);
-            """, (space_id, last_updated, status))
-        conn.commit()
+                sensor_idx += 1  # Move to the next sensor
 
         print("Data populated successfully.")
 
