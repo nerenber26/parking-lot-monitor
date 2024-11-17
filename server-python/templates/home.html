@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+    <title>Home</title>
+{% endblock %}
+
+{% block body %}
+    <header>
+        <div class="topnav">
+            <a class="active" href="/">Home</a>
+            <a href="/map">Map</a>
+            <a href="/query">Query</a>
+        </div>
+    </header>
+    <div class="myspacer"></div>
+    <div class="info">
+        <p>Main Lot: 50/100 Available &#x1F7E9;</p>
+    </div>
+    <div class="myspacer"></div>
+    <div class="info"></div>
+        <p>Commons Lot: 5/40 Available &#x1F7E5;</p>
+    </div>
+    <div class="myspacer"></div>
+    <div class="info">
+        <p>Waldschmidt Lot: 10/30 Available &#x1F7E8;</p>
+    </div>
+    <div class="myspacer"></div>
+    <div class="info">
+        <p>Shiley Lot: 10/20 Available &#x1F7E9;</p>
+    </div>
+    <div class="myspacer"></div>
+    <div class="info">
+        <p>Christie Lot: 5/20 Available &#x1F7E5;</p>
+    </div>
+    <div class="myspacer"></div>
+    <div class="info">
+        <p>Kenna Lot: 1/20 Available &#x1F7E5;</p>
+    </div>
+    <div class="myspacer"></div>
+    <div class="info">
+        <p>Baseball Lot: 2/20 Available &#x1F7E5;</p>
+    </div>
+{% endblock %}
