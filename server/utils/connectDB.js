@@ -11,7 +11,7 @@ const POSTGRES_CONNECTION_TIMEOUT = process.env.POSTGRES_CONNECTION_TIMEOUT || 2
 
 const POSTGRES_USER = process.env.POSTGRES_USER || console.error('POSTGRES_USER is not set') && process.exit(1);
 const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD || console.error('POSTGRES_PASSWORD is not set') && process.exit(1);
-const POSTGRES_DATABASE = process.env.POSTGRES_DATABASE || console.error('POSTGRES_DATABASE is not set') && process.exit(1);
+const POSTGRES_DATABASE = process.env.POSTGRES_DB || console.error('POSTGRES_DATABASE is not set') && process.exit(1);
 
 const pool = new Pool({
     host: POSTGRES_HOST,
@@ -24,10 +24,18 @@ const pool = new Pool({
     connectionTimeoutMillis: POSTGRES_CONNECTION_TIMEOUT,
 });
 
+pool.on('error', (err) => {
+    console.error('Unexpected error on idle client', err);
+    process.exit(-1);
+});
+
+pool.on('connect', () => {
+    console.log('Database connected');
+});
+
 /**
  * Executes a SQL query against a database.
  *
- * @async
  * @function runQuery
  * @param {string} text SQL query to be executed
  * @param {Array} params Array of parameters to use in the SQL query
@@ -37,14 +45,13 @@ const pool = new Pool({
  * const result = await runQuery('SELECT * FROM users WHERE id = $1', [userId]);
  * console.log(result.rows);
  */
-export const runQuery = async(text, params) => {
+export const runQuery = (text, params) => {
     return pool.query(text, params);
 };
 
 /**
  * Retrieves a database client from the connection pool, overriding its release methods.
  *
- * @async
  * @function getClient
  * @returns {Promise<Object>} Promise that resolves to a database client
  *
@@ -53,6 +60,6 @@ export const runQuery = async(text, params) => {
  * const result = await client.query('SELECT * FROM users');
  * client.release()
  */
-export const getClient = async () => {
+export const getClient = () => {
     return pool.connect();
 };

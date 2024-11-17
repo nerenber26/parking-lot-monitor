@@ -6,10 +6,13 @@ from datetime import datetime, timedelta
 
 
 lot_names = [
-    'Parking Lot #1',
-    'Parking Lot #2',
-    'Parking Lot #3',
-    'Parking Lot #4',
+    'Main Lot',
+    'Commons Lot',
+    'Waldschmidt Lot',
+    'Shiley Lot',
+    # 'Christie Lot',
+    # 'Kenna Lot',
+    # 'Postmouth',
 ]
 sections = ['A', 'B', 'C', 'D']
 
