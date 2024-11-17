@@ -7,31 +7,12 @@ html(lang="en")
     title Home
   body
     header
-      .topnav
-            a.active(href='/') Home
-            a(href='/map') Map
-            a(href='/query') Query
-  .myspacer  
-  mixin infoSpacer(infoText)
-    .info!= infoText
+      .topnav 
+        a.active(href='/') Home
+        a(href='/map') Map
+        a(href='/query') Query
     .myspacer
-    .info
-      p Main Lot: 50/100 Available &#x1F7E9
-    .myspacer
-    .info
-      p Commons Lot: 5/40 Available &#x1F7E5
-    .myspacer
-    .info
-      p Waldschmidt Lot: 10/30 Available &#x1F7E8
-    .myspacer
-    .info
-      p Shiley Lot: 10/20 Available &#x1F7E9
-    .myspacer
-    .info
-      p Christie Lot: 5/20 Available &#x1F7E5
-    .myspacer
-    .info
-      p Kenna Lot: 1/20 Available &#x1F7E5
-    .myspacer
-    .info
-      p Baseball Lot: 2/20 Available &#x1F7E5
+      each lot in results
+        .info
+          p #{lot.name}: #{lot.available_spaces}/#{lot.total_spaces} !{lot.icon}
+        .myspacer

@@ -13,19 +13,37 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.set('view engine', 'pug');
 app.use(express.static(join(__dirname, 'public')));
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(err.statusCode || 500).json({
+        status: 'error',
+        message: err.message || 'Internal Server Error',
+    });
+});
+
 
 app.get('/', async(req, res) => {
-    const infoArray = [
-        'Main Lot: 50/100 Available &#x1F7E9', 
-        'Commons Lot: 5/40 Available &#x1F7E5', 
-        'Waldschmidt Lot: 10/30 Available &#x1F7E8',
-        'Shiley Lot: 10/20 Available &#x1F7E9',
-        'Christie Lot: 5/20 Available &#x1F7E5',
-        'Kenna Lot: 1/20 Available &#x1F7E5',
-        'Portsmouth Lot: 2/20 Available &#x1F7E5',
-        ]
-    console.log(infoArray)
-    res.status(200).render('home', { infoArray });
+    const info = await db.runQuery(`
+        SELECT pl.name, pl.total_spaces, COUNT(ps.id) FILTER(WHERE ps.occupied = false) AS available_spaces
+        FROM ParkingLots pl
+        LEFT JOIN ParkingSpaces ps ON pl.id = ps.lot_id
+        GROUP BY pl.id
+        ORDER BY pl.name
+    `);
+
+    const results = info.rows.map(row => {
+        return {
+            name: row.name,
+            available_spaces: parseInt(row.available_spaces, 10),
+            total_spaces: parseInt(row.total_spaces, 10),
+            icon: row.available_spaces / row.total_spaces > 0.50 ? '&#x1F7E9' :     // green
+                    row.available_spaces / row.total_spaces > 0.25 ? '&#x1F7E8' :   // yellow
+                    row.available_spaces / row.total_spaces > 0 ? '&#x1F7E7' :      // red
+                    '&#x1F7E6' // black
+        };
+    });
+
+    res.status(200).render('home', { results });
 });
 
 app.get('/map', (req, res) => {
