@@ -8,7 +8,13 @@ This project is a **proof-of-concept** system for real-time monitoring of parkin
 - [System Architecture](#system-architecture)
     - [End Device](#end-device)
     - [Network Server](#network-server)
+        - [LoRaWAN Gateway]()
+        - [MQTT Broker]()
     - [Application Server](#application-server)
+        - [ExpressJS Server](#expressjs-server)
+        - [PostgreSQL Database](#postresql-database)
+        - *[TBD: Backup Service]()*
+    - *[TBD: Reverse Proxy]()*
 - [Considerations](#considerations)
     - [LoRaWAN](#lorawan)
     - [Database](#database)
@@ -16,7 +22,23 @@ This project is a **proof-of-concept** system for real-time monitoring of parkin
 
 # Setup and Deployment
 
-*TODO*
+Run the docker deployment.
+
+```bash
+docker network create plms-network
+docker volume create postgresql-data
+docker volume create mosquitto-data
+
+docker compose up -d
+```
+
+Populate the database with test data.
+
+```bash
+cd ./db
+pip install -r requirements.txt
+python populate_test_data.py --host <HOST> --port <PORT> --user <USER> --dbname <DBNAME>
+```
 
 # System Architecture
 
@@ -30,9 +52,17 @@ Each parking space is fitted with a device that includes a **time-of-flight sens
 
 A **LoRa gateway** will monitor for broadcasted signals at *915 Hz*, ensuring data from the end-devices are properly formatted and securely transmitted to the **application server** for storage and further processing. An **MQTT broker** is also used to facillitate the transfer of data packets, allowing for a reliable and secure means of communication.
 
+### LoRaWAN Gateway
+
+### MQTT Broker
+
 ## Application Server
 
 *TODO*
+
+### ExpressJS Server
+
+### PostreSQL Database
 
 # Considerations
 
