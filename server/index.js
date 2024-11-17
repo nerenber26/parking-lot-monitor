@@ -37,7 +37,7 @@ app.get('/query', async(req, res) => {
 });
 
 app.get('/api', async(req, res) => {
-    const results = await db.runQuery('SELECT pl.name, COUNT(ps.space_id), pl.total_spaces FROM ParkingLots pl JOIN ParkingSpaces ps ON pl.lot_id = ps.lot_id WHERE ps.occupied = false GROUP BY pl.name, pl.total_spaces', []);
+    const results = await db.runQuery('SELECT pl.name, COUNT(ps.id), pl.total_spaces FROM ParkingLots pl JOIN ParkingSpaces ps ON pl.id = ps.lot_id WHERE ps.occupied = false GROUP BY pl.name, pl.total_spaces', []);
     res.status(200).send(results.rows);
 })
 

@@ -34,7 +34,7 @@ services:
     volumes:
       - ./server:/home/node/app
     working_dir: /home/node/app
-    command: ["sh", "-c", "npm install && npm start"]
+    command: ["sh", "-c", "apk add --no-cache curl && npm install && npm start"]
     networks:
       - plms-network
     restart: unless-stopped
@@ -55,7 +55,7 @@ services:
       - plms-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "mosquitto_sub -h localhost -t test -C 1"]
+      test: ["CMD-SHELL", "nc -zv localhost 1883"]
       start_interval: 30s
       interval: 30s
       timeout: 10s
