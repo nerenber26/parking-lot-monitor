@@ -64,6 +64,8 @@ A **LoRa gateway** will monitor for broadcasted signals at *915 Hz*, ensuring da
 
 ### PostreSQL Database
 
+![Database Design](./assets/DatabaseDesign_Transparent.png)
+
 # Considerations
 
 ## LoRaWAN
