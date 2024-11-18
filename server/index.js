@@ -6,9 +6,24 @@ import * as db from './utils/connectDB.js';
 import * as mqtt from './utils/connectMQTT.js';
 
 
-const APP_PORT = process.env.APP_PORT || 3000;
-const APP_ENV = process.env.APP_ENV || 'development';
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const APP_ENV = process.env.APP_ENV || 'development';
+const APP_PORT = process.env.APP_PORT || 3000;
+
+const MQTT_BROKER_HOST = process.env.MQTT_BROKER_HOST || '127.0.0.1';
+const MQTT_BROKER_PORT = process.env.MQTT_BROKER_PORT || 1883;
+const MQTT_TOPIC = process.env.MQTT_TOPIC || 'parking';
+
+const POSTGRES_HOST = process.env.POSTGRES_HOST || '127.0.0.1';
+const POSTGRES_PORT = process.env.POSTGRES_PORT || 5432;
+const POSTGRES_DB = process.env.POSTGRES_DB || 'test';
+const POSTGRES_USER = process.env.POSTGRES_USER || 'postgres';
+const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD || 'password';
+const POSTGRES_IDLE_TIMEOUT = process.env.POSTGRES_IDLE_TIMEOUT || 30000;
+const POSTGRES_CONNECTION_TIMEOUT = process.env.POSTGRES_CONNECTION_TIMEOUT || 2000;
+const POSTGRES_MAX_CONNECTIONS = process.env.POSTGRES_MAX_CONNECTIONS || 10;
+
 
 const app = express();
 app.set('view engine', 'pug');
@@ -21,9 +36,23 @@ app.use((err, req, res, next) => {
     });
 });
 
+const mqttClient = mqtt.connectClient(MQTT_BROKER_HOST, MQTT_BROKER_PORT);
+mqtt.subscribeToTopic(mqttClient, MQTT_TOPIC);
+
+const postgresPool = db.connectClient(
+    POSTGRES_HOST,
+    POSTGRES_PORT,
+    POSTGRES_DB,
+    POSTGRES_USER,
+    POSTGRES_PASSWORD,
+    POSTGRES_IDLE_TIMEOUT,
+    POSTGRES_CONNECTION_TIMEOUT,
+    POSTGRES_MAX_CONNECTIONS,
+);
+
 
 app.get('/', async(req, res) => {
-    const info = await db.runQuery(`
+    const info = await db.runQuery(postgresPool, `
         SELECT pl.name, pl.total_spaces, COUNT(ps.id) FILTER(WHERE ps.occupied = false) AS available_spaces
         FROM ParkingLots pl
         LEFT JOIN ParkingSpaces ps ON pl.id = ps.lot_id
@@ -54,11 +83,6 @@ app.get('/query', async(req, res) => {
     res.status(200).render('query');
 });
 
-app.get('/api', async(req, res) => {
-    const results = await db.runQuery('SELECT pl.name, COUNT(ps.id), pl.total_spaces FROM ParkingLots pl JOIN ParkingSpaces ps ON pl.id = ps.lot_id WHERE ps.occupied = false GROUP BY pl.name, pl.total_spaces', []);
-    res.status(200).send(results.rows);
-})
-
 app.all('*', (req, res) => {
     res.status(404).render('404');
 });
@@ -66,6 +90,4 @@ app.all('*', (req, res) => {
 app.listen(APP_PORT, () => {
     console.log(`Starting up server in ${APP_ENV.toUpperCase()} mode`);
     console.log(`ExpressJS App listening to port: ${APP_PORT}`);
-
-    mqtt.subscribeToTopic('parking');
 });
