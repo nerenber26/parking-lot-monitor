@@ -25,6 +25,10 @@ app.use(express.static(join(__dirname, 'public')));
 app.use(express.json());
 app.use(errorHandler);
 
+app.get('/favicon.ico', (req, res) => {
+    res.sendFile('public/favicon.ico', { root: __dirname } )
+});
+
 app.use('/', pagesRouter);
 app.use('/api', apiRouter);
 
