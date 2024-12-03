@@ -13,10 +13,6 @@ const pool = new Pool({
     max: process.env.POSTGRES_MAX_CONNECTIONS,
 });
 
-pool.on('error', (err) => {
-    console.error('Unexpected error on idle client', err);
-});
-
 pool.on('connect', () => {
     console.log('Database connected');
 });

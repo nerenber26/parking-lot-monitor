@@ -8,8 +8,7 @@ export const getHomePage = async(req, res) => {
     const BLACK = '&#x1F7E6';
 
     const results = (await db.runQuery(`
-        SELECT pl.name, pl.total_spaces, 
-               COUNT(ps.id) FILTER(WHERE ps.occupied = false) AS available_spaces
+        SELECT pl.name, pl.total_spaces, COUNT(ps.id) FILTER(WHERE ps.occupied = false) AS available_spaces
         FROM ParkingLots pl
         LEFT JOIN ParkingSpaces ps ON pl.id = ps.lot_id
         GROUP BY pl.id

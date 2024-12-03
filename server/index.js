@@ -32,7 +32,7 @@ app.get('/favicon.ico', (req, res) => {
 app.use('/', pagesRouter);
 app.use('/api', apiRouter);
 
-app.all('*', (req, res) => {
+app.all('(.*)', (req, res) => {
     res.status(404).render('404');
 });
 
