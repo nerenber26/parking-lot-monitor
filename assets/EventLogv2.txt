@@ -1,0 +1,23 @@
+-- ParkingLots Table
+CREATE TABLE ParkingLots (
+    id SERIAL PRIMARY KEY,                -- Auto-incremented primary key
+    lot_name VARCHAR(100),                -- Name of the parking lot
+    max_spots INTEGER                     -- Maximum spots in the parking lot
+);
+
+-- LoRaSensors Table
+CREATE TABLE LoRaSensors (
+    id SERIAL PRIMARY KEY,                -- Auto-incremented primary key
+    lot_id INTEGER REFERENCES ParkingLots(id) ON DELETE CASCADE,   -- Foreign key referencing ParkingLots
+    secret VARCHAR(100)                   -- Secret for the sensor
+);
+
+-- EventLog Table
+CREATE TABLE EventLog (
+    id SERIAL PRIMARY KEY,                -- Auto-incremented primary key
+    sensor_id INTEGER REFERENCES LoRaSensors(id) ON DELETE CASCADE, -- Foreign key referencing LoRaSensors
+    timestamp TIMESTAMP                    -- Timestamp of the event
+);
+
+-- Optional: Index on timestamp in EventLog for performance improvement on queries filtering by timestamp
+CREATE INDEX idx_eventlog_timestamp ON EventLog(timestamp);
