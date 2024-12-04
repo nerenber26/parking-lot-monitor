@@ -1,0 +1,18 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <div class="myspacer">
+        {% for row in rows %}
+            <div class="info">
+                <p id="lot{{ loop.index }}"
+                   data-name="{{ row[0] }}"
+                   data-total-spaces="{{ row[1] }}"
+                   data-available-spaces="{{ row[2] }}">
+                   {{ row[0] }}: {{ row[2] }} / {{ row[1] }}
+                </p>
+            </div>
+            <div class="myspacer"></div>
+        {% endfor %}
+    </div>
+    <script src="{{ url_for('static', filename='js/parking_status.js') }}"></script>
+{% endblock %}
