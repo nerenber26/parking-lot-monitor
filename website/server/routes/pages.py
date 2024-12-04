@@ -1,12 +1,12 @@
-from flask import Blueprint, render_template, request, current_app
+from flask import Blueprint, render_template
 from sqlalchemy import text
 
-from utils.connectDB import db
+from server.extensions import db
 
 
-views = Blueprint("views", __name__)
+bp = Blueprint("pages", __name__)
 
-@views.route("/", methods=["GET"])
+@bp.route("/")
 def home_page():
     result = db.session.execute(text("""
         SELECT pl.name, pl.total_spaces, COUNT(ps.id)

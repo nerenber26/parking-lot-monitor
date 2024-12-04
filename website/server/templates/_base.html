@@ -5,11 +5,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <title>{{ page_title }}</title>
     </head>
     <body>
         <header class="topnav">
-            <a href="{{ url_for('views.home_page') }}" class="active">Home</a>
+            <a href="{{ url_for('pages.home_page') }}" class="active">Home</a>
             <a href="">Map</a>
             <a href="">Query</a>
         </header>
