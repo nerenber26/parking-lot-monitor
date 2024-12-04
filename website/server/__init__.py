@@ -5,15 +5,15 @@ from server.routes import pages_bp, api_bp
 from server.extensions import db, mqtt, minify
 
 
-def create_app(config_name="development"):
+def create_app(config_prefix="development"):
     app = Flask(__name__, static_url_path="")
-    app.config.from_object(configs[config_name])
+    app.config.from_object(configs[config_prefix])
 
     minify.init_app(app)
 
-    db.init_app(app)
-
-    mqtt.init_app(app)
+    # db.init_app(app)
+    #
+    # mqtt.init_app(app)
 
     app.register_blueprint(pages_bp, url_prefix="/")
     app.register_blueprint(api_bp, url_prefix="/api/v1")
@@ -23,7 +23,7 @@ def create_app(config_name="development"):
         app.logger.debug(error)
         return render_template(
             "error.html",
-            page_title="404",
+            error_code=404,
             error_message="Page not found",
         ), 404
 
@@ -32,7 +32,7 @@ def create_app(config_name="development"):
         app.logger.debug(error)
         return render_template(
             "error.html",
-            page_title="500",
+            error_code=500,
             error_message="Internal server error",
         ), 500
 

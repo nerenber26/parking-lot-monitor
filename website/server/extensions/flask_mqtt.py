@@ -3,7 +3,7 @@ from flask_mqtt import Mqtt
 mqtt = Mqtt()
 
 @mqtt.on_connect()
-def handle_connect(client, userdata, flags, rc):
+def handle_mqtt_connect(client, userdata, flags, rc):
     mqtt.subscribe("lorawan")
     print(f"Connected with result code {rc}")
 

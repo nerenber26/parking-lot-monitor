@@ -1,0 +1,23 @@
+services:
+    server:
+      image: python:3.11-slim
+      volumes:
+        - ./server:/server
+        - ./config.py:/config.py
+        - ./requirements.txt:/requirements.txt
+      command: >
+        sh -c "
+        pip install --no-cache-dir -r requirements.txt &&
+        flask --app server run --host=0.0.0.0 --port=8000"
+      depends_on:
+        - node
+      ports:
+        - "8000:8000"
+    node:
+        image: node:16
+        volumes:
+          - ./package.json:/package.json
+        command: >
+          sh -c "
+          npm install && 
+          npx tailwindcss -i ./server/static/css/input.css -o ./server/static/css/output.css"
