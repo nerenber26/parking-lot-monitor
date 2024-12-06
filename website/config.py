@@ -9,7 +9,6 @@ class DevelopmentConfig:
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://mmm:xxx@localhost:5432/parking"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-
 configs = {
     "development": DevelopmentConfig,
 }
