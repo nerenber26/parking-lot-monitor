@@ -1,52 +1,35 @@
-FROM node:22-alpine as node_builder
+FROM node:22-alpine AS npm
 
-WORKDIR /app
+WORKDIR /website
 
-COPY server/package*.json /app/
+COPY ./package*.json /website/
+COPY ./tailwind.config.js /website/tailwind.config.js
 
-COPY server/tailwind.config.js /app/tailwind.config.js
-COPY server/postcss.config.js /app/postcss.config.js
+COPY ./static /website/static
+COPY ./templates /website/templates
 
-COPY server/static /app/static
-COPY server/templates /app/templates
+RUN npm ci && npm run build
 
-RUN npm install && npm run build
-RUN rm ./static/css/default.css
+FROM python:3.13-alpine
 
+WORKDIR /website
 
-FROM python:3.13-alpine as python_builder
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-RUN adduser -D admin
-USER admin
-WORKDIR /home/admin
+ENV PORT=8000
 
-COPY --chown=admin:admin server/requirements.txt app/requirements.txt
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir app/wheels -r app/requirements.txt
+ENV PATH="${PATH}:/root/.local/bin"
 
+COPY ./requirements.txt /website/requirements.txt
 
-FROM python:3.13-alpine as flask_server
+RUN pip install --user -r /website/requirements.txt
 
-RUN adduser -D admin
-USER admin
-WORKDIR /home/admin
+COPY ./wsgi.py /website/wsgi.py
+COPY ./app /website/app
+COPY --from=npm /website/static /website/static
+COPY --from=npm /website/templates /website/templates
 
-ENV PATH="/home/admin/.local/bin:${PATH}"
+EXPOSE $PORT
 
-COPY --chown=admin:admin --from=python_builder /home/admin/app/wheels app/wheels
-COPY --chown=admin:admin --from=python_builder /home/admin/app/requirements.txt app/requirements.txt
-
-RUN pip install --no-cache app/wheels/*
-
-COPY --chown=admin:admin config.py app/config.py
-COPY --chown=admin:admin server/extensions app/server/extensions
-COPY --chown=admin:admin server/models app/server/models
-COPY --chown=admin:admin server/routes app/server/routes
-COPY --chown=admin:admin server/templates app/server/templates
-COPY --chown=admin:admin server/__init__.py app/server/__init__.py
-
-COPY --chown=admin:admin --from=node_builder /app/static /home/admin/app/server/static
-
-EXPOSE 8000
-
-WORKDIR /home/admin/app
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "server:create_app()"]
+CMD ["gunicorn", "wsgi:create_app()", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "15"]

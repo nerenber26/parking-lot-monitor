@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Parking Availability System</title>
+        <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+        {% block headers %}{% endblock %}
+    </head>
+    <body class="bg-gray-50 text-gray-900">
+
+        <!-- Navbar -->
+        <nav class="bg-[#140f39] text-white shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <a href="/" class="text-2xl font-bold">Parking Availability System</a>
+                    <div class="space-x-4">
+                        <a href="/" class="text-sm px-4 py-2 rounded-lg hover:bg-[#372d68] {% if active_page == 'home' %}bg-yellow-400 text-[#140f39]{% endif %}">
+                            <span class="font-medium uppercase tracking-wide">Home</span>
+                        </a>
+                        <a href="/map" class="text-sm px-4 py-2 rounded-lg hover:bg-[#372d68] {% if active_page == 'map' %}bg-yellow-400 text-[#140f39]{% endif %}">
+                            <span class="font-medium uppercase tracking-wide">Map</span>
+                        </a>
+                        <a href="/stats" class="text-sm px-4 py-2 rounded-lg hover:bg-[#372d68] {% if active_page == 'stats' %}bg-yellow-400 text-[#140f39]{% endif %}">
+                            <span class="font-medium uppercase tracking-wide">Statistics</span>
+                        </a>
+                        <a href="/help" class="text-sm px-4 py-2 rounded-lg hover:bg-[#372d68] {% if active_page == 'help' %}bg-yellow-400 text-[#140f39]{% endif %}">
+                            <span class="font-medium uppercase tracking-wide">Help</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="bg-gradient-to-r from-[#140f39] to-[#372d68] text-white py-12 shadow-lg">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl font-bold mb-4">Welcome to University Parking</h1>
+                <p class="text-lg">Quickly find available parking spots across campus with real-time updates.</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="py-10 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-200 text-gray-800 py-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <p class="text-sm">© 2024 University of Portland - Parking Services</p>
+                <div class="mt-2 space-x-4">
+                    <a href="/privacy" class="text-gray-500 hover:text-[#140f39]">Privacy Policy</a>
+                    <a href="/contact" class="text-gray-500 hover:text-[#140f39]">Contact Us</a>
+                    <a href="/faq" class="text-gray-500 hover:text-[#140f39]">FAQ</a>
+                </div>
+            </div>
+        </footer>
+
+    </body>
+</html>

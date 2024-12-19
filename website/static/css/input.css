@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/********** Base Template **********/
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+/********** Home Page **********/
+
+/* General styles for availability indicators */
+[data-availability] {
+    background-color: #cccccc; /* Default gray */
+}
+
+/********** Error Page **********/
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20%, 60% {
+        transform: translateX(-10px);
+    }
+    40%, 80% {
+        transform: translateX(10px);
+    }
+}
+
+.error-code {
+    animation: shake 0.5s ease-in-out;
+}
