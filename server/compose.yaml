@@ -1,0 +1,81 @@
+volumes:
+  postgresqldata:
+    external: true
+  redisdata:
+    external: true
+
+services:
+  chirpstack:
+    image: chirpstack/chirpstack:4
+    depends_on:
+      - postgres
+      - mosquitto
+      - redis
+    restart: unless-stopped
+    command: -c /etc/chirpstack
+    environment:
+      - MQTT_BROKER_HOST=mosquitto
+      - REDIS_HOST=redis
+      - POSTGRESQL_HOST=postgres
+    volumes:
+      - ./chirpstack/server:/etc/chirpstack
+    ports:
+      - 8080:8080
+    
+  chirpstack-gateway-bridge:
+    image: chirpstack/chirpstack-gateway-bridge:4
+    depends_on:
+      - mosquitto
+    restart: unless-stopped
+    environment:
+      - INTEGRATION__MQTT__EVENT_TOPIC_TEMPLATE=us915_0/gateway/{{ .GatewayID }}/event/{{ .EventType }}
+      - INTEGRATION__MQTT__STATE_TOPIC_TEMPLATE=us915_0/gateway/{{ .GatewayID }}/state/{{ .StateType }}
+      - INTEGRATION__MQTT__COMMAND_TOPIC_TEMPLATE=us915_0/gateway/{{ .GatewayID }}/command/#
+    volumes:
+      - ./chirpstack/bridge:/etc/chirpstack-gateway-bridge
+    ports:
+      - 1700:1700/udp
+  
+  chirpstack-gateway-bridge-basicstation:
+    image: chirpstack/chirpstack-gateway-bridge:4
+    depends_on:
+      - mosquitto
+    restart: unless-stopped
+    command: -c /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge-basicstation-us915_0.toml
+    volumes:
+      - ./chirpstack/bridge:/etc/chirpstack-gateway-bridge
+    ports:
+      - 3001:3001
+
+  chirpstack-rest-api:
+    image: chirpstack/chirpstack-rest-api:4
+    depends_on:
+      - chirpstack
+    restart: unless-stopped
+    command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
+    ports:
+      - 8090:8090
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    volumes: 
+      - ./mosquitto/:/mosquitto/config/
+    ports:
+      - 1883:1883
+
+  postgres:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=root
+    volumes:
+      - ./postgresql:/docker-entrypoint-initdb.d
+      - postgresqldata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --save 300 1 --save 60 100 --appendonly no
+    volumes:
+      - redisdata:/data
