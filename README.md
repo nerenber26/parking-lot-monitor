@@ -57,3 +57,8 @@ The **web application** serves as a forward-facing platform that allows users to
 collected and processed by the LoRaWAN network. It displays real-time and historical sensor
 data in an easy-to-understand format, providing insights into the information gathered by
 end-devices.
+
+# Attribution
+
+- https://github.com/chirpstack
+- https://github.com/TheThingsNetwork
