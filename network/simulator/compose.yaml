@@ -1,0 +1,18 @@
+networks:
+  chirpstack-network:
+
+services:
+  simulator:
+    build: .
+    command: bash /chirpstack/startup.sh
+    volumes:
+      - ./:/chirpstack
+    networks:
+      - chirpstack-network
+  run:
+    build: .
+    command: bash /chirpstack/run.sh
+    volumes:
+      - ./:/chirpstack
+    networks:
+      - chirpstack-network
