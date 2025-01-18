@@ -1,5 +1,5 @@
 {
-    "name": "parking-lot-monitor-website",
+    "name": "parking-lot-monitor-website-server",
     "version": "1.0.0",
     "scripts": {
         "dev": "tailwindcss -i ./static/css/globals.css -o ./static/css/styles.css --watch",

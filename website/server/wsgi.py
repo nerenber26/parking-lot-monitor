@@ -1,5 +1,4 @@
 from flask import Flask, render_template
-from flask_minify import minify
 
 from app.pages.base import pages_bp
 from app.api.base import api_bp
@@ -7,7 +6,6 @@ from app.api.base import api_bp
 
 def create_app():
     app = Flask(__name__, static_url_path="")
-    minify(app, html=True, js=True, cssless=True)
 
     app.register_blueprint(pages_bp, url_prefix="/")
     app.register_blueprint(api_bp, url_prefix="/api")

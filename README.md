@@ -2,22 +2,15 @@
 
 This project is a **proof-of-concept** system for real-time monitoring of parking space
 availability, designed to be low-cost, low-maintenance, and scalable. It leverages custom-built
-IoT sensors and a lightweight data processing pipeline to periodically report parking occupancy.
-Although built for *limited deployment*, this system's architecture allows for expansion to
-monitor additional spaces and incorporate new features as needed.
-
-# Table of Contents
-
-- [Setup and Deployment](#setup-and-deployment)
-- [Project Architecture](#project-architecture)
-    - [LoRaWAN End-Devices](#lorawan-end-devices)
-    - [LoRaWAN Gateway](#lorawan-gateway)
-    - [LoRaWAN Network Server](#lorawan-network-server)
-    - [Web Application](#web-application)
+IoT sensors and a lightweight data processing pipeline to periodically obtain live occupancy
+status of individual spaces and display them through an interactive website. Historical data
+is saved and can be used for statistical displays or internal analysis for parking management.
 
 # Setup and Deployment
 
-View each of the following modules for specific details on deployment on those sections.
+> [!Note]
+> This is a monorepo of multiple independent components required to setup the system. Please read
+> the documentation of each specific service for proper setup and deployment.
 
 - [LoRaWAN End-Devices](./devices/README.md)
 - [LoRaWAN Gateway](./gateway/README.md)
@@ -26,22 +19,25 @@ View each of the following modules for specific details on deployment on those s
 
 # Project Architecture
 
-![Project Overview](./assets/ProjectArchitecture_Transparent.png)
+![Project Architecture Overview Diagram](./_assets/ProjectArchitecture.svg)
 
 ## LoRaWAN End-Devices
 
-Each parking space being monitored will be fitted with an **end-device** that includes a
-**time-of-flight sensor** and **magnetic-field sensor** for event monitoring. These sensors are
-connected to an **ESP32 microcontroller**, which handles the frequency of pings and transmits
-data through a modulation technique called **Chirp Spread Spectrum (CSS)**.
+Each parking space will be fitted with an **end-device** that includes a **time-of-flight sensor**
+and **magnetic-field sensor** for event monitoring (e.g. vehicle moving over the spot). These
+sensors are connected to an **ESP32 microcontroller**, which handles the frequency and pings and
+transmission of data through the modulation technique **Chirp Spread Spectrum (CSS)**. It is
+powered by a small built-in battery designed to last over 1+ years.
 
 ## LoRaWAN Gateway
 
-The **LoRaWAN gateway** is setup to monitor for broadcasted signals in the specified region
-*(915 Hz for the United States)*. These signals are sent by LoRaWAN devices using a non-IP
-protocol, which means they cannot be directly processed or transmitted over standard IP networks.
-As a result, the gateway is required to forward these signals to a network server, where they can
-be stored and further processed.
+> [!Note]
+> Specification of the LoRaWAN gateway for this project is still being determined.
+
+**Chirp signals** broadcasted by the **end-devices** will be monitored by the **LoRaWAN gateway**
+on on **915 Hz** *(for the United Stated)*. This non-IP protocol cannot be processed or
+transmitted by traditional web servers directly, requiring a gateway to decode and forward packets
+to a central server for storage and further processing.
 
 ## LoRaWAN Network Server
 
@@ -60,5 +56,9 @@ end-devices.
 
 # Attribution
 
+## Citations
+
 - https://github.com/chirpstack
 - https://github.com/TheThingsNetwork
+
+## Contributors

@@ -3,5 +3,7 @@ module.exports = {
         "./templates/**/*.html",
     ],
     theme: {},
-    plugins: [],
+    plugins: [
+        require("@tailwindcss/typography"),
+    ],
 }

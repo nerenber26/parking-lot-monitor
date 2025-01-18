@@ -2,6 +2,6 @@
 
 # Network Server Architecture
 
-![Network Server Architecture](../assets/NetworkServerArchitecture_Transparent.png)
+![Network Server Architecture](../_assets/NetworkArchitecture.svg)
 
 - https://www.chirpstack.io/docs/index.html
