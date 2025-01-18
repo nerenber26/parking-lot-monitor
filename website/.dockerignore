@@ -1,9 +1,0 @@
-*.pyc
-.env
-.DS_Store
-node_modules
-venv/
-.venv
-.git/
-output.css
-*.min.js
