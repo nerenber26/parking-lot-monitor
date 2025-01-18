@@ -5,6 +5,7 @@ volumes:
 services:
   server:
     build: ./server
+    env_file: ./server/.env
     restart: unless-stopped
     environment:
       - POSTGRESQL_HOST=postgres
