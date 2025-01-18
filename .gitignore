@@ -72,4 +72,4 @@ venv.bak/
 node_modules/
 
 # build
-output.css
+styles.css

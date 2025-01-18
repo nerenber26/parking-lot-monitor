@@ -2,10 +2,11 @@
     "name": "parking-lot-monitor-website",
     "version": "1.0.0",
     "scripts": {
-        "dev": "npx tailwindcss -i ./static/css/globals.css -o ./static/css/output.css --watch",
-        "build": "npx tailwindcss -i ./static/css/globals.css -o ./static/css/output.css"
+        "dev": "tailwindcss -i ./static/css/globals.css -o ./static/css/styles.css --watch",
+        "build": "tailwindcss -i ./static/css/globals.css -o ./static/css/styles.css"
     },
     "dependencies": {
+        "@tailwindcss/typography": "^0.5.16",
         "tailwindcss": "^3.4.17"
     }
 }
