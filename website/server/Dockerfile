@@ -33,6 +33,8 @@ FROM python:3.13-slim-bookworm@sha256:23a81be7b258c8f516f7a60e80943cace4350deb82
 
 WORKDIR /usr/share/python
 
+RUN apt-get update && apt-get install -y curl && apt-get clean
+
 # prevent python from writing logs and bytecode
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
