@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>  <style>
+        /* Custom styles for the About page animations */
+        .about-section {
+            display: flex;
+            flex-direction: column; /* Stack sections on smaller screens */
+        }
+        .about-content {
+            flex: 1; /* Take up available space */
+            padding: 2rem;
+        }
+        .about-image {
+            flex: 1;
+            height: 300px; /* Set a height for the image container */
+            overflow: hidden; /* Hide overflowing image */
+            position: relative; /* For positioning the image */
+        }
+        .about-image img {
+            position: absolute; /* Allow image to be positioned */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Maintain aspect ratio and fill container */
+            transition: transform 0.5s ease; /* Smooth animation */
+        }
+
+        /* Example animation: Slide in from the left */
+        .slide-in-left {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        .slide-in-right {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+
+        @media (min-width: 768px) { /* Adjust for larger screens */
+            .about-section {
+                flex-direction: row; /* Arrange sections side-by-side */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <nav class="bg-blue-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-white font-bold text-xl">My Website</a>
+            <div>
+                <a href="/" class="text-white mr-4">Home</a>
+                <a href="/about.html" class="text-white">About</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div id="home-page" class="container mx-auto p-8">
+      <h1 class="text-3xl font-bold mb-4">Welcome Home</h1>
+      <div id="block-container" class="grid grid-cols-1 md:grid-cols-5 gap-4"> </div>
+    </div>
+
+
+    <div id="about-page" class="container mx-auto p-8 hidden">
+        <h1 class="text-3xl font-bold mb-4">About Us</h1>
+
+        <div class="about-section">
+            <div class="about-content">
+                <p>Some text on the left side.  This is a longer paragraph to demonstrate the layout. You can put any content you like here.</p>
+            </div>
+            <div class="about-image">
+                <img src="placeholder1.jpg" alt="Image 1">  </div>
+        </div>
+
+        <div class="about-section">
+            <div class="about-image">
+                <img src="placeholder2.jpg" alt="Image 2">
+            </div>
+            <div class="about-content">
+                <p>Some text on the right side.  More content here. This section is designed to alternate sides with the images.</p>
+            </div>
+        </div>
+
+        </div>
+
+    <script>
+        const blocks = ['A', 'B', 'C', 'D', 'E'];
+        const blockContainer = document.getElementById('block-container');
+
+        blocks.forEach(block => {
+            const div = document.createElement('div');
+            div.classList.add('bg-white', 'p-4', 'rounded', 'shadow');
+            div.textContent = block;
+            blockContainer.appendChild(div);
+        });
+
+        // About Page Animation
+        const aboutSections = document.querySelectorAll('.about-section');
+
+        function animateOnScroll() {
+          aboutSections.forEach((section, index) => {
+            const triggerPoint = section.getBoundingClientRect().top + window.innerHeight * 0.8; // Adjust trigger point as needed
+            if (window.scrollY > triggerPoint) {
+              const content = section.querySelector('.about-content');
+              const image = section.querySelector('.about-image');
+              if (index % 2 === 0) { // Even sections: slide in from left
+                content.classList.add('show', 'slide-in-left');
+                image.classList.add('show', 'slide-in-right');
+
+              } else { // Odd sections: slide in from right
+                content.classList.add('show', 'slide-in-right');
+                image.classList.add('show', 'slide-in-left');
+
+              }
+            }
+          });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+
+
+      //Basic page routing
+      const homePage = document.getElementById('home-page');
+      const aboutPage = document.getElementById('about-page');
+
+      const path = window.location.pathname;
+
+      if (path === '/about.html') {
+          homePage.classList.add('hidden');
+          aboutPage.classList.remove('hidden');
+      } else {
+          homePage.classList.remove('hidden');
+          aboutPage.classList.add('hidden');
+      }
+
+    </script>
+
+</body>
+</html>
