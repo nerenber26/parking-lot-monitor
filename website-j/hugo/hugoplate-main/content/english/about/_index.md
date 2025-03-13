@@ -1,8 +1,8 @@
 ---
-title: "Hey, I am John Doe!"
-meta_title: "About"
-description: "this is meta description"
-image: "/images/avatar.png"
+title: "This is the Map"
+meta_title: "Map"
+description: "Map"
+image: "/images/lot.png"
 draft: false
 ---
 
