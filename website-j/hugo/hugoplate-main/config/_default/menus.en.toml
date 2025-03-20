@@ -7,13 +7,13 @@ url = "/"
 weight = 1
 
 [[main]]
-name = "About"
+name = "Map"
 url = "/about"
 weight = 2
 
 [[main]]
-name = "Elements"
-url = "/elements"
+name = "Authors"
+url = "/authors"
 weight = 3
 
 [[main]]
@@ -29,11 +29,6 @@ url = "/blog"
 parent = "Pages"
 name = "Contact"
 url = "/contact"
-
-[[main]]
-parent = "Pages"
-name = "Authors"
-url = "/authors"
 
 [[main]]
 parent = "Pages"
