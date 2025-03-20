@@ -1,0 +1,29 @@
+baseURL: https://example.org/
+languageCode: en-us
+title: Parking Lot Monitor
+theme: ["PaperMod"]
+
+data:
+  capacities:
+    file: "capacities.csv"
+    delimiter: ","
+    header: true
+
+menu:
+  main:
+    - identifier: Home
+      name: Home
+      url: /
+      weight: 10
+    - identifier: Map
+      name: Map
+      url: /map/
+      weight: 20
+    - identifier: Authors
+      name: Authors
+      url: /authors/
+      weight: 30
+params:
+  defaultTheme: "auto" # or "dark" to force dark mode
+
+    

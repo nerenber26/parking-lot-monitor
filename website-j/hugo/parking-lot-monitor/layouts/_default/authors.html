@@ -1,0 +1,12 @@
+{{ define "main" }}
+  <div class="authors-grid">
+    {{ range .Site.Data.authors }}
+      <div class="author-card">
+        <img src="{{ .image }}" alt="{{ .name }}">
+        <h3>{{ .name }}</h3>
+        <p>{{ .job }}</p>
+        <p>{{ .email }}</p>
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

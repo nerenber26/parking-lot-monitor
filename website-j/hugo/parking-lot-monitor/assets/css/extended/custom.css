@@ -1,0 +1,86 @@
+.authors-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+  .author-card {
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  .author-card img {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+
+  h2 {
+    color: #2a2a2a;
+  }
+  h3 {
+    color: #2a2a2a;
+  }
+
+  p {
+    color: #2a2a2a;
+  }
+
+  :root {
+    /* Light theme colors */
+    --theme: #ffffff; /* Background color */
+    --entry: #f9f9f9; /* Entry (post) background color */
+    --primary: #333333; /* Primary text color */
+    --secondary: #666666; /* Secondary text color */
+    --tertiary: #cccccc; /* Tertiary text color */
+    --content: #333333; /* Content text color */
+    --hljs-bg: #f5f5f5; /* Code block background color */
+    --code-bg: #f5f5f5; /* Inline code background color */
+    --border: #e0e0e0; /* Border color */
+  }
+  
+  /* Dark theme colors (if dark mode is enabled) */
+  .dark {
+    --theme: #1e1656; /* Background color */
+    --entry: #2a2a2a; /* Entry (post) background color */
+    --primary: #e0e0e0; /* Primary text color */
+    --secondary: #b0b0b0; /* Secondary text color */
+    --tertiary: #808080; /* Tertiary text color */
+    --content: #e0e0e0; /* Content text color */
+    --hljs-bg: #2a2a2a; /* Code block background color */
+    --code-bg: #2a2a2a; /* Inline code background color */
+    --border: #404040; /* Border color */
+  }
+
+  .map-container {
+    position: relative;
+    overflow: scroll;
+    width: 100%;
+    height: 80vh;
+  }
+  #map-image {
+    width: 2000px; /* Adjust based on your map size */
+    height: auto;
+  }
+  .map-overlay {
+    position: absolute;
+    background: rgba(66, 60, 60, 0.8);
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 14px;
+  }

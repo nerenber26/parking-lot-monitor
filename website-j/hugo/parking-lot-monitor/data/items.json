@@ -1,0 +1,30 @@
+[
+    {
+      "Name": "Area 1",
+      "CurrentAmount": 50,
+      "MaxCapacity": 100,
+      "left": 100,
+      "top": 100
+    },
+    {
+      "Name": "Area 2",
+      "CurrentAmount": 75,
+      "MaxCapacity": 150,
+      "left": 200,
+      "top": 200
+    },
+    {
+        "Name": "Area 3",
+        "CurrentAmount": 50,
+        "MaxCapacity": 100,
+        "left": 200,
+      "top": 300
+    },
+    {
+      "Name": "Area 4",
+        "CurrentAmount": 75,
+        "MaxCapacity": 150,
+        "left": 300,
+      "top": 300
+    }
+  ]

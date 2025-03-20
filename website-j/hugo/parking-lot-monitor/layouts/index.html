@@ -1,0 +1,12 @@
+{{ define "main" }}
+  <div class="container">
+    {{ $data := index .Site.Data.items }}
+{{ range $data }}
+  <section class="item">
+    <h2>{{ .Name }}</h2>
+    <p>Current Amount: {{ .CurrentAmount }}</p>
+    <p>Max Capacity: {{ .MaxCapacity }}</p>
+  </section>
+{{ end }}
+  </div>
+{{ end }}

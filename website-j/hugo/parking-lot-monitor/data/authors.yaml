@@ -1,0 +1,16 @@
+- name: Bryce
+  job: Computer Science
+  email: john@example.com
+  image: /images/bryce.png
+- name: Christian
+  job: Electrical Engineering
+  email: jane@example.com
+  image: /images/christian.png
+- name: Jazmine
+  job: Electrical Engineering
+  email: john@example.com
+  image: /images/jazmine.png
+- name: Jonathan
+  job: Computer Science
+  email: jane@example.com
+  image: /images/jonathan.png
