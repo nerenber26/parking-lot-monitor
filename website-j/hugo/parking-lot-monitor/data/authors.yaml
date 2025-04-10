@@ -1,16 +1,16 @@
 - name: Bryce
   job: Computer Science
-  email: john@example.com
+  email: kwon25@up.edu
   image: /images/bryce.png
 - name: Christian
   job: Electrical Engineering
-  email: jane@example.com
+  email: lopezpar25@up.edu
   image: /images/christian.png
 - name: Jazmine
   job: Electrical Engineering
-  email: john@example.com
+  email: cabral25@up.edu
   image: /images/jazmine.png
 - name: Jonathan
   job: Computer Science
-  email: jane@example.com
+  email: nerenber26@up.edu
   image: /images/jonathan.png

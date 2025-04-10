@@ -1,12 +1,27 @@
 {{ define "main" }}
   <div class="container">
     {{ $data := index .Site.Data.items }}
-{{ range $data }}
-  <section class="item">
-    <h2>{{ .Name }}</h2>
-    <p>Current Amount: {{ .CurrentAmount }}</p>
-    <p>Max Capacity: {{ .MaxCapacity }}</p>
-  </section>
-{{ end }}
+    {{ range $data }}
+      {{ $filled := div (mul .CurrentAmount 100) .MaxCapacity }}
+
+      <section class="item">
+        <h2>{{ .Name }}</h2>
+
+        <div class="progress-wrapper">
+          <div class="progress-labels">
+            <span class="occupied-label" style="left: {{ $filled }}%;">{{ .CurrentAmount }}</span>
+            <span class="capacity-label">{{ .MaxCapacity }}</span>
+          </div>
+
+          <div class="progress-bar-container">
+            <div 
+              class="progress-bar 
+              {{ if lt $filled 50 }}green{{ else if lt $filled 90 }}yellow{{ else }}red{{ end }}" 
+              style="width: {{ $filled }}%;">
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
   </div>
 {{ end }}

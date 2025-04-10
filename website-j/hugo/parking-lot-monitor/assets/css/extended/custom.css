@@ -11,12 +11,89 @@
     border-radius: 5px;
     background-color: #f9f9f9;
   }
+  .author-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }  
   .author-card img {
     width: 100px;
     height: 100px;
     display: flex;
     justify-content: center;
   }
+  
+  
+  .progress-wrapper {
+    position: relative;
+    margin: 10px 0;
+  }
+  
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+    position: relative;
+  }
+  
+  .occupied-label {
+    position: absolute;
+    transform: translateX(-150%);
+    top: 0;
+    font-weight: bold;
+    color: #313131;
+  }
+  
+  .capacity-label {
+    position: absolute;
+    right: 2px;
+    top: 0;
+    font-weight: bold;
+    color: #777;
+  }
+  
+  .progress-bar-container {
+    width: 100%;
+    height: 24px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+  
+  .progress-bar.green {
+    background-color: #4CAF50;
+  }
+  
+  .progress-bar.yellow {
+    background-color: #FFC107;
+  }
+  
+  .progress-bar.red {
+    background-color: #F44336;
+  }
+  
+  
+
+  .logo-top-right {
+    position: absolute;
+    top: 1rem;
+    left: 3rem;
+    z-index: 1000;
+    background-color: #f9f9f9;
+    padding: 2px;
+  }
+  
+  .logo-top-right img {
+    height: 50px;
+    width: auto;
+  }
+
   .container {
     max-width: 800px;
     margin: 0 auto;
@@ -68,19 +145,26 @@
   }
 
   .map-container {
-    position: relative;
-    overflow: scroll;
-    width: 100%;
-    height: 80vh;
+    position: relative; /* Needed for absolute positioning of overlays */
+    overflow: hidden; /* Hide parts of the image that are out of the viewport */
+    width: 100%; /* Adjust as needed */
+    height: 500px; /* Adjust as needed */
   }
+  
   #map-image {
-    width: 2000px; /* Adjust based on your map size */
+    display: block; /* Remove extra space below the image */
+    width: 100%; /* Initial width, will be scaled with zoom */
     height: auto;
+    transform-origin: top left; /* Ensure zoom centers from the top-left */
   }
+  
   .map-overlay {
     position: absolute;
-    background: rgba(66, 60, 60, 0.8);
+    background-color: rgba(32, 28, 28, 0.5); /* Example overlay style */
+    color: white;
     padding: 5px;
     border-radius: 3px;
-    font-size: 14px;
+    font-size: 0.8em;
+    pointer-events: none; /* Allow interaction with the image below */
   }
+  

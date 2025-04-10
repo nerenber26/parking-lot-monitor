@@ -2,7 +2,7 @@
   <div class="authors-grid">
     {{ range .Site.Data.authors }}
       <div class="author-card">
-        <img src="{{ .image }}" alt="{{ .name }}">
+        <img class="author-image" src="{{ .image }}" alt="{{ .name }}">
         <h3>{{ .name }}</h3>
         <p>{{ .job }}</p>
         <p>{{ .email }}</p>
