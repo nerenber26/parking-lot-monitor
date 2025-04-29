@@ -1,23 +1,33 @@
-FROM docker.io/golang:1.24-bookworm AS builder
+###############################################################################
+# Build Executable                                                            #
+###############################################################################
+FROM docker.io/golang:1.24.2-alpine AS builder
 
-WORKDIR /usr/share/golang
+WORKDIR /parking
 
-COPY main.go go.mod go.sum ./
-COPY ./app ./app
-COPY ./database ./database
-COPY ./handlers ./handlers
-COPY ./middlewares ./middlewares
-COPY ./static ./static
-COPY ./views ./views
-
+# download and cache dependencies
+COPY ./go.mod ./go.sum ./
 RUN go mod download
-RUN go build -o main .
 
-FROM docker.io/debian:bookworm
+# copy source code
+COPY ./main.go ./main.go
+COPY ./app ./app
+COPY ./models ./models
 
-RUN mkdir -p /app
+# compile standalone executable
+RUN go build -ldflags="-s -w" -o parking ./main.go
 
-COPY --from=builder /usr/share/golang/main /app/main
+###############################################################################
+# Setup Virtual Environment                                                   #
+###############################################################################
+FROM docker.io/alpine:3.21
 
-WORKDIR /app
-CMD ["./main"]
+# avoid running as root
+RUN addgroup -S parking && adduser -S parking -G parking
+USER parking
+WORKDIR /home/parking
+
+# copy executable from previous stage
+COPY --chown=parking:parking --from=builder /parking/parking /usr/local/bin/parking
+
+ENTRYPOINT ["/usr/local/bin/parking"]
