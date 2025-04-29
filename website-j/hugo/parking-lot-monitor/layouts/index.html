@@ -2,15 +2,15 @@
   <div class="container">
     {{ $data := index .Site.Data.items }}
     {{ range $data }}
-      {{ $filled := div (mul .CurrentAmount 100) .MaxCapacity }}
+      {{ $filled := div (mul .current_amount 100) .max_capacity }}
 
       <section class="item">
-        <h2>{{ .Name }}</h2>
+        <h2>{{ .name }}</h2>
 
         <div class="progress-wrapper">
           <div class="progress-labels">
-            <span class="occupied-label" style="left: {{ $filled }}%;">{{ .CurrentAmount }}</span>
-            <span class="capacity-label">{{ .MaxCapacity }}</span>
+            <span class="occupied-label" style="left: {{ $filled }}%;">{{ .current_amount }}</span>
+            <span class="capacity-label">{{ .max_capacity }}</span>
           </div>
 
           <div class="progress-bar-container">

@@ -1,37 +1,42 @@
 [
-    {
-      "Name": "Main",
-      "CurrentAmount": 50,
-      "MaxCapacity": 200,
-      "left": 350,
-      "top": 100
-    },
-    {
-      "Name": "Commons",
-      "CurrentAmount": 25,
-      "MaxCapacity": 50,
-      "left": 310,
-      "top": 270
-    },
-    {
-        "Name": "Waldschimdt",
-        "CurrentAmount": 27,
-        "MaxCapacity": 30,
-        "left": 475,
-      "top": 250
-    },
-    {
-      "Name": "Shiley",
-        "CurrentAmount": 8,
-        "MaxCapacity": 20,
-        "left": 275,
-      "top": 225
-    },
-    {
-      "Name": "Tennis",
-        "CurrentAmount": 2,
-        "MaxCapacity": 30,
-        "left": 255,
-      "top": 275
-    }
-  ]
+  {
+    "id": 1,
+    "name": "Main",
+    "current_amount": 100,
+    "max_capacity": 200,
+    "x": 350,
+    "y": 100
+  },
+  {
+    "id": 2,
+    "name": "Commons",
+    "current_amount": 25,
+    "max_capacity": 50,
+    "x": 310,
+    "y": 270
+  },
+  {
+    "id": 3,
+    "name": "Waldschimdt",
+    "current_amount": 27,
+    "max_capacity": 30,
+    "x": 475,
+    "y": 250
+  },
+  {
+    "id": 4,
+    "name": "Shiley",
+    "current_amount": 8,
+    "max_capacity": 20,
+    "x": 275,
+    "y": 225
+  },
+  {
+    "id": 5,
+    "name": "Tennis",
+    "current_amount": 2,
+    "max_capacity": 30,
+    "x": 255,
+    "y": 275
+  }
+]
